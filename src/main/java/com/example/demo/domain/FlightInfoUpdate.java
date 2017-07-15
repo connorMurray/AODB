@@ -1,11 +1,12 @@
 package com.example.demo.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 
 @Entity
-public class FlightInfoUpdate {
+public class FlightInfoUpdate implements Serializable {
 
     @Id
     @GeneratedValue

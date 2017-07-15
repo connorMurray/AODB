@@ -3,16 +3,17 @@ package com.example.demo.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class FlightInfoRecord {
+public class FlightInfoRecord implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    private FlightInfoUpdate flightInfoUpdate;
+//    @ManyToOne
+//    private FlightInfoUpdate flightInfoUpdate;
 
     private String airportCode;
     private String scheduled;
@@ -30,13 +31,13 @@ public class FlightInfoRecord {
 
     }
 
-    public FlightInfoUpdate getFlightInfoUpdate() {
-        return flightInfoUpdate;
-    }
-
-    public void setFlightInfoUpdate(FlightInfoUpdate flightInfoUpdate) {
-        this.flightInfoUpdate = flightInfoUpdate;
-    }
+//    public FlightInfoUpdate getFlightInfoUpdate() {
+//        return flightInfoUpdate;
+//    }
+//
+//    public void setFlightInfoUpdate(FlightInfoUpdate flightInfoUpdate) {
+//        this.flightInfoUpdate = flightInfoUpdate;
+//    }
 
     public String getAirportCode() {
 

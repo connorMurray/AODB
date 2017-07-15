@@ -58,6 +58,14 @@ class FlightServiceSpec extends Specification {
         )
     }
 
+    void 'Test getFlightRecords(): request flights from database '() {
+        when:
+        flightService.getFlightRecords()
+
+        then:
+        1 * mockFlightInfoUpdateRepository.findAll()
+    }
+    
     void 'Test getFlights(): request flights from flifo and save to database '() {
         setup:
         mockResponseEntity.getStatusCode() >> HttpStatus.OK

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.configuration.FlifoConfig;
 import com.example.demo.domain.FlightInfoUpdate;
 import com.example.demo.repository.FlightInfoUpdateRepository;
+import com.example.demo.repository.FlightIntoRecordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,20 @@ public class FlightService implements IFlightService {
     private static Logger LOG = LoggerFactory.getLogger(FlightService.class);
     @Autowired
     private FlightInfoUpdateRepository flightInfoUpdateRepository;
+
+    @Autowired
+    private FlightIntoRecordRepository flightInfoRecordRepository;
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private MultiValueMap<String, String> flifoRequestHeaders;
     @Autowired
     private FlifoConfig flifoConfig;
+
+    public Iterable<FlightInfoUpdate> getFlightRecords() {
+        return flightInfoUpdateRepository.findAll();
+    }
 
     public void getFlights() {
         HttpEntity<Object> requestEntity = new HttpEntity<>(flifoRequestHeaders);
