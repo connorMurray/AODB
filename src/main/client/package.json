@@ -15,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^4.2.6",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
@@ -25,7 +26,9 @@
     "@angular/router": "^4.0.0",
     "copyfiles": "^1.2.0",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "mkdirp": "^0.5.1",
+    "primeng": "^4.1.0",
     "rimraf": "^2.6.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"

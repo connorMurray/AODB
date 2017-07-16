@@ -1,0 +1,36 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <label>Airport Code: </label>
+    <p-dropdown [options]="airportCodes" [(ngModel)]="selectedAirportCode" [style]="{'width':'150px'}">
+      <ng-template let-airport pTemplate="item">
+        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+          <div style="font-size:14px;margin-top:4px">{{airport.label}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+
+    <label>Airline Code: </label>
+    <p-dropdown [options]="airlineCodes" [(ngModel)]="selectedAirportCode" [style]="{'width':'150px'}">
+      <ng-template let-airline pTemplate="item">
+        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+          <div style="font-size:14px;margin-top:4px">{{airline.label}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+
+    <label>Flight Type: </label>
+    <p-dropdown [options]="flightTypes" [(ngModel)]="selectedFlightType" [style]="{'width':'150px'}">
+      <ng-template let-type pTemplate="item">
+        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+          <div style="font-size:14px;margin-top:4px">{{type.label}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+
+  </div>
+  <div class="ui-toolbar-group-right">
+    <i class="fa fa-bars"></i>
+    <button pButton type="button" label="Update" icon="fa-save" class="ui-button-success" (click)="onclick()"></button>
+  </div>
+</p-toolbar>
+
