@@ -22,3 +22,23 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+src/main/client/dist
+src/main/client/tmp
+src/main/client/out-tsc
+
+# dependencies
+src/main/client/node_modules
+
+# IDEs and editors
+src/main/client/*.idea
+src/main/client/*.project
+
+# misc
+src/main/client/coverage
+src/main/client/npm-debug.log
+src/main/client/typings
+
+# e2e
+src/main/client/e2e/*.js
+src/main/client/e2e/*.map
