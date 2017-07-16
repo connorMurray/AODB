@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,13 +19,14 @@ public class FlightController {
     @Autowired
     private IFlightService flightService;
 
+    @CrossOrigin
     @RequestMapping(value = "/flightrecords", method = RequestMethod.GET)
     public Iterable<FlightInfoUpdate> getFlightRecords() {
         LOG.info("Getting flight list from database");
         Iterable<FlightInfoUpdate> FlightInformationUpdates = flightService.getFlightRecords();
         return FlightInformationUpdates;
     }
-    
+
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/flights", method = RequestMethod.GET)
     public void getFLights() {
