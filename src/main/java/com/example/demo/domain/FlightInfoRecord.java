@@ -12,9 +12,6 @@ public class FlightInfoRecord implements Serializable {
     @GeneratedValue
     private Long id;
 
-//    @ManyToOne
-//    private FlightInfoUpdate flightInfoUpdate;
-
     private String airportCode;
     private String scheduled;
     private String estimated;
@@ -28,16 +25,7 @@ public class FlightInfoRecord implements Serializable {
     OperatingCarrier operatingCarrier;
 
     public FlightInfoRecord() {
-
     }
-
-//    public FlightInfoUpdate getFlightInfoUpdate() {
-//        return flightInfoUpdate;
-//    }
-//
-//    public void setFlightInfoUpdate(FlightInfoUpdate flightInfoUpdate) {
-//        this.flightInfoUpdate = flightInfoUpdate;
-//    }
 
     public String getAirportCode() {
 

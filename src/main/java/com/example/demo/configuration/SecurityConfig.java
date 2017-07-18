@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-//switch on spring native method level security
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
@@ -25,9 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable(); //disable cross site request forgery for now
         http
                 .authorizeRequests()
                 .antMatchers("/flightrecords").permitAll()
+                .antMatchers("/flights").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

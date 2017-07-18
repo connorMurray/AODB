@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.configuration.FlifoConfig;
 import com.example.demo.domain.FlightInfoUpdate;
+import com.example.demo.dto.FlightUpdate;
 import com.example.demo.repository.FlightInfoUpdateRepository;
-import com.example.demo.repository.FlightIntoRecordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,6 @@ public class FlightService implements IFlightService {
     private static Logger LOG = LoggerFactory.getLogger(FlightService.class);
     @Autowired
     private FlightInfoUpdateRepository flightInfoUpdateRepository;
-
-    @Autowired
-    private FlightIntoRecordRepository flightInfoRecordRepository;
-
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -36,22 +32,25 @@ public class FlightService implements IFlightService {
         return flightInfoUpdateRepository.findAll();
     }
 
-    public void getFlights() {
-        HttpEntity<Object> requestEntity = new HttpEntity<>(flifoRequestHeaders);
-        String url = generateUrl(flifoConfig.getAeroAPIEndPoint(), flifoConfig.getDepartureflightUpdateEndPoint());
+    public void getFlights(FlightUpdate flightUpdate) throws RestClientException {
         ResponseEntity<FlightInfoUpdate> response = null;
+        HttpEntity<Object> requestEntity = new HttpEntity<>(flifoRequestHeaders);
+        String url = generateUrl(
+                flifoConfig.getAeroAPIEndPoint(),
+                flightUpdate.getAirportCode(),
+                flightUpdate.getAirlineCode(),
+                flightUpdate.getFlightType(),
+                flightUpdate.getFutureWindow());
 
-        try {
-            LOG.info("Attempting to retrieve flights from FLIFO: " + url);
-            response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, FlightInfoUpdate.class);
-            LOG.info("Response: " + response.getStatusCode());
-        } catch (RestClientException ex) {
-            LOG.error("Error retrieving flights from FLIFO: ", ex);
-        }
+        LOG.info("Attempting to retrieve flights from FLIFO: " + url);
+        response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, FlightInfoUpdate.class);
+        LOG.info("FLIFO Response: " + response.getStatusCode());
 
         if (response != null) {
-            FlightInfoUpdate flightInfoUpdate = response.getBody();
-            save(flightInfoUpdate);
+//            FlightInfoUpdate flightInfoUpdate = response.getBody();
+//            save(flightInfoUpdate);
+
+            save(response.getBody());
         }
     }
 
@@ -61,12 +60,11 @@ public class FlightService implements IFlightService {
         }
     }
 
-    private String generateUrl(String... stringParts) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String part : stringParts) {
-            stringBuilder.append(part);
+    private String generateUrl(String endpoint, String airportCode, String airlineCode, String flightType, Integer futureWindow) {
+        String url = endpoint + "/" + airportCode + "/" + airlineCode + "/" + flightType;
+        if (futureWindow != 0) {
+            url += "?futureWindow=" + futureWindow;
         }
-        String builtString = stringBuilder.toString();
-        return builtString;
+        return url;
     }
 }

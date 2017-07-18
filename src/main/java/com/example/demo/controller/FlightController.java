@@ -1,15 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.FlightInfoUpdate;
+import com.example.demo.dto.FlightUpdate;
 import com.example.demo.service.IFlightService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class FlightController {
@@ -23,14 +22,14 @@ public class FlightController {
     @RequestMapping(value = "/flightrecords", method = RequestMethod.GET)
     public Iterable<FlightInfoUpdate> getFlightRecords() {
         LOG.info("Getting flight list from database");
-        Iterable<FlightInfoUpdate> FlightInformationUpdates = flightService.getFlightRecords();
-        return FlightInformationUpdates;
+        return flightService.getFlightRecords();
     }
 
-    @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/flights", method = RequestMethod.GET)
-    public void getFLights() {
+    @CrossOrigin
+    @RequestMapping(value = "/flights", method = RequestMethod.POST)
+    public ResponseEntity<String> updateFlights(@RequestBody FlightUpdate flightUpdate) {
         LOG.info("Getting flights from FLIFO API");
-        flightService.getFlights();
+        flightService.getFlights(flightUpdate);
+        return new ResponseEntity<String>("Flights pulled back successfully", HttpStatus.OK);
     }
 }
