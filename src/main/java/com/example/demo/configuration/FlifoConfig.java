@@ -12,8 +12,6 @@ public class FlifoConfig {
 
     private String apiKey;
     private String aeroAPIEndPoint;
-//    private String departureflightUpdateEndPoint;
-//    private String flightEndPoint;
 
     public String getApiKey() {
 
@@ -34,25 +32,4 @@ public class FlifoConfig {
 
         this.aeroAPIEndPoint = aeroAPIEndPoint;
     }
-
-
-//    public String getDepartureflightUpdateEndPoint() {
-//
-//        return departureflightUpdateEndPoint;
-//    }
-//
-//    public void setDepartureflightUpdateEndPoint(String departureflightUpdateEndPoint) {
-//
-//        this.departureflightUpdateEndPoint = departureflightUpdateEndPoint;
-//    }
-
-//    public String getFlightEndPoint() {
-//
-//        return flightEndPoint;
-//    }
-//
-//    public void setFlightEndPoint(String flightEndPoint) {
-//
-//        this.flightEndPoint = flightEndPoint;
-//    }
 }

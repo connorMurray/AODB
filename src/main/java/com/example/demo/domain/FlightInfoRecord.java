@@ -19,6 +19,7 @@ public class FlightInfoRecord implements Serializable {
     private String status;
     private String statusText;
     private String city;
+    private String remark;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty("operatingCarrier")
@@ -105,5 +106,21 @@ public class FlightInfoRecord implements Serializable {
     public void setCity(String city) {
 
         this.city = city;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

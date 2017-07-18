@@ -24,11 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable(); //disable cross site request forgery for now
+        http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/flightrecords").permitAll()
+                .antMatchers("/flightrecords").permitAll() //TODO: try removing this when build into dist to see if work
                 .antMatchers("/flights").permitAll()
+                .antMatchers("/updateflightrecord").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

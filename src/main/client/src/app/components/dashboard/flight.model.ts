@@ -14,6 +14,8 @@ export interface IFlightRecord {
   statusText: string;
   city: string;
   operatingCarrier: IOperatingCarrier;
+  id: number;
+  remark: string;
 }
 
 export interface IOperatingCarrier {

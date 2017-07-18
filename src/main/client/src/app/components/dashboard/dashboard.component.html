@@ -69,16 +69,19 @@
         <div class="ui-grid-col-8"><input pInputText id="year" [(ngModel)]="selectedFlightRecord.estimated"/></div>
       </div>
       <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="brand">Gate</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="selectedFlightRecord.gate"/></div>
+        <div class="ui-grid-col-4"><label for="gate">Gate</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="gate" [(ngModel)]="selectedFlightRecord.gate"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="remark">Remark</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="remark" [(ngModel)]="selectedFlightRecord.remark"/></div>
       </div>
     </div>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
         <button type="button" pButton icon="fa-close" label="Delete"></button>
-        <button type="button" pButton icon="fa-check" label="Save"></button>
+        <button type="button" pButton icon="fa-check" (click)="save(selectedFlightRecord)" label="Save"></button>
       </div>
     </p-footer>
   </p-dialog>
-
 </div>

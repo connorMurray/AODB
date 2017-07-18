@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.FlightInfoRecord;
 import com.example.demo.domain.FlightInfoUpdate;
 import com.example.demo.dto.FlightUpdate;
 import com.example.demo.service.IFlightService;
@@ -31,5 +32,13 @@ public class FlightController {
         LOG.info("Getting flights from FLIFO API");
         flightService.getFlights(flightUpdate);
         return new ResponseEntity<String>("Flights pulled back successfully", HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/updateflightrecord", method = RequestMethod.PUT)
+    public ResponseEntity<String> addRemark(@RequestBody FlightInfoRecord flightInfoRecord) {
+        LOG.info("Request to add remark received");
+        flightService.updateFlightRecord(flightInfoRecord);
+        return new ResponseEntity<String>("Renark added successfully", HttpStatus.OK);
     }
 }

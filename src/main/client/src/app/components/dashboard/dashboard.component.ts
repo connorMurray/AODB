@@ -33,6 +33,11 @@ export class DashboardComponent implements OnInit {
     this.displayDialog = true;
   }
 
+  save(flightRecord: IFlightRecord): void {
+    this.dashboardService.updateFlightRecord(flightRecord);
+    this.displayDialog = false;
+  }
+
   update(): void {
     this.dashboardService.updateFlights(
       {
@@ -42,6 +47,7 @@ export class DashboardComponent implements OnInit {
         futureWindow: this.futureWindow
       }
     ).then((result) => {
+      //only if status code!
       this.getFlights();
     })
       .catch((error) => console.error(error));

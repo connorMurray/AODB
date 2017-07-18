@@ -4,11 +4,12 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-import {IFlightInformation, IFlightUpdate} from "./flight.model";
+import {IFlightInformation, IFlightUpdate, IFlightRecord} from "./flight.model";
 
 export interface IDashboardService {
   getFlights(): Observable<IFlightInformation>;
   updateFlights(flightUpdate: IFlightUpdate): Promise<any>;
+  updateFlightRecord(flightRecord: IFlightRecord): Promise<any>;
 }
 
 @Injectable()
@@ -27,16 +28,23 @@ export class DashboardService implements IDashboardService {
       .catch(this.handleError);
   }
 
-  //TODO: get flights when this returns status ok!
   updateFlights(flightUpdate: IFlightUpdate): Promise<any> {
     let headers = new Headers({'Content-Type': 'application/json'});
     return this._http
       .post('http://localhost:8080/flights', JSON.stringify(flightUpdate), {headers: headers})
       .map((response) => response.json())
       .toPromise()
-      // .then(res => res.json().data)
       .catch(this.handleError);
   };
+
+  updateFlightRecord(flightRecord: IFlightRecord): Promise<any> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    return this._http
+      .put('http://localhost:8080/updateflightrecord', JSON.stringify(flightRecord), {headers: headers})
+      .map((response) => response.json())
+      .toPromise()
+      .catch(this.handleError);
+  }
 
   private extractData(res: Response) {
     let body = res.json();
