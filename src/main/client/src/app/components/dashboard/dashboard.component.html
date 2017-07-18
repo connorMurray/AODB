@@ -1,7 +1,9 @@
 <p-toolbar>
   <div class="ui-toolbar-group-left">
+    <i class="fa fa-bars" style="margin-left: 10px;"></i>
     <label>Airport Code: </label>
-    <p-dropdown [options]="airportCodes" [(ngModel)]="selectedAirportCode" [style]="{'width':'150px'}">
+    <p-dropdown [options]="airportCodes" [(ngModel)]="selectedAirportCode" placeholder="Select Airport Code"
+                [style]="{'width':'200px'}">
       <ng-template let-airport pTemplate="item">
         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
           <div style="font-size:14px;margin-top:4px">{{airport.label}}</div>
@@ -9,8 +11,10 @@
       </ng-template>
     </p-dropdown>
 
+    <i class="fa fa-bars" style="margin-left: 20px;"></i>
     <label>Airline Code: </label>
-    <p-dropdown [options]="airlineCodes" [(ngModel)]="selectedAirportCode" [style]="{'width':'150px'}">
+    <p-dropdown [options]="airlineCodes" [(ngModel)]="selectedAirlineCode" placeholder="Select Airline Code"
+                [style]="{'width':'200px'}">
       <ng-template let-airline pTemplate="item">
         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
           <div style="font-size:14px;margin-top:4px">{{airline.label}}</div>
@@ -18,8 +22,10 @@
       </ng-template>
     </p-dropdown>
 
+    <i class="fa fa-bars" style="margin-left: 20px;"></i>
     <label>Flight Type: </label>
-    <p-dropdown [options]="flightTypes" [(ngModel)]="selectedFlightType" [style]="{'width':'150px'}">
+    <p-dropdown [options]="flightTypes" [(ngModel)]="selectedFlightType" placeholder="Select Flight Type"
+                [style]="{'width':'200px'}">
       <ng-template let-type pTemplate="item">
         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
           <div style="font-size:14px;margin-top:4px">{{type.label}}</div>
@@ -27,10 +33,52 @@
       </ng-template>
     </p-dropdown>
 
+    <i class="fa fa-bars" style="margin-left: 20px;"></i>
+    <label>Future Window: </label>
+    <p-spinner size="30" [(ngModel)]="futureWindow" [min]="0" [max]="12" [step]="1"
+               [style]="{'width':'200px'}"></p-spinner>
   </div>
+
   <div class="ui-toolbar-group-right">
     <i class="fa fa-bars"></i>
-    <button pButton type="button" label="Update" icon="fa-save" class="ui-button-success" (click)="onclick()"></button>
+    <button pButton type="button" label="Update" icon="fa-save" class="ui-button-success" (click)="update()"
+            [disabled]="!isValidForm()"></button>
   </div>
 </p-toolbar>
 
+<div *ngIf="flightInformation">
+  <p-dataTable [value]="flightInformation?.flightRecord" selectionMode="single" [(selection)]="selectedFlightRecord"
+               (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="31" [responsive]="true">
+    <p-header>Flight Information Control Panel</p-header>
+    <p-column field="operatingCarrier.airlineCode" header="Airline Code"></p-column>
+    <p-column field="operatingCarrier.flightNumber" header="Flight Number"></p-column>
+    <p-column field="airportCode" header="Destination Airport Code"></p-column>
+    <p-column field="scheduled" header="Scheduled Time Departure"></p-column>
+    <p-column field="estimated" header="Estimated Time Departure"></p-column>
+    <p-column field="gate" header="Gate"></p-column>
+  </p-dataTable>
+
+  <p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedFlightRecord">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="vin">Scheduled</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="vin" [(ngModel)]="selectedFlightRecord.scheduled"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="year">Estimated</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="year" [(ngModel)]="selectedFlightRecord.estimated"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="brand">Gate</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="selectedFlightRecord.gate"/></div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" label="Delete"></button>
+        <button type="button" pButton icon="fa-check" label="Save"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+
+</div>

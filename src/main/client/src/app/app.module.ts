@@ -7,10 +7,11 @@ import {
   SharedModule,
   ButtonModule,
   DataTableModule,
-  ToolbarModule
+  DialogModule,
+  ToolbarModule,
+  DropdownModule,
+  SpinnerModule
 } from 'primeng/primeng';
-
-import {DropdownModule} from 'primeng/primeng';
 
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component'
@@ -22,12 +23,14 @@ import {DashboardComponent} from './components/dashboard/dashboard.component'
   ],
   imports: [
     DropdownModule,
+    SpinnerModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
     SharedModule,
     DataTableModule,
+    DialogModule,
     ButtonModule,
     ToolbarModule
   ],
