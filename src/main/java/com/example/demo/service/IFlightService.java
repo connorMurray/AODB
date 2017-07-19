@@ -10,4 +10,6 @@ public interface IFlightService {
     Iterable<FlightInfoUpdate> getFlightRecords();
 
     void updateFlightRecord(FlightInfoRecord updatedFlightRecord);
+
+    void deleteFlightRecord(FlightInfoRecord updatedFlightRecord);
 }

@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {DashboardService} from "./dashboard.service";
+import {FlightService} from "./flight.service";
 import {IFlightUpdateMenu, IFlightUpdateMenuValue, IFlightInformation, IFlightRecord} from "./flight.model";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [DashboardService]
+  providers: [DashboardService, FlightService]
 })
 export class DashboardComponent implements OnInit {
 
@@ -21,21 +23,32 @@ export class DashboardComponent implements OnInit {
   selectedFlightRecord: IFlightRecord;
   displayDialog: boolean;
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private flightService: FlightService) {
   }
 
   ngOnInit() {
     this.initialize();
   }
 
-  //TODO: set to false then save and delete hit just for show
   onRowSelect(event) {
     this.displayDialog = true;
   }
 
   save(flightRecord: IFlightRecord): void {
     this.dashboardService.updateFlightRecord(flightRecord);
+    this.flightInformation.flightRecord = this.flightService.updateFlightRecord(this.flightInformation.flightRecord, flightRecord);
     this.displayDialog = false;
+  }
+
+  delete(flightRecord: IFlightRecord): void {
+    this.dashboardService.deleteFlightRecord(flightRecord);
+    this.flightInformation.flightRecord = this.flightService.deleteFlightRecord(this.flightInformation.flightRecord, flightRecord);
+    this.displayDialog = false;
+  }
+
+  isValidForm(): boolean {
+    return this.selectedAirlineCode && this.selectedAirportCode &&
+      this.selectedFlightType && !this.flightInformation;
   }
 
   update(): void {
@@ -47,24 +60,36 @@ export class DashboardComponent implements OnInit {
         futureWindow: this.futureWindow
       }
     ).then((result) => {
-      //only if status code!
       this.getFlights();
     })
       .catch((error) => console.error(error));
   }
 
-  getFlights(): void {
+  private getFlights(): void {
     this.dashboardService.getFlights().subscribe(flightInformation => {
-      this.flightInformation = flightInformation
+      this.onFlightInformationRetrieved(flightInformation);
     });
   }
 
-  isValidForm() {
-    return this.selectedAirlineCode && this.selectedAirportCode &&
-      this.selectedFlightType && !this.flightInformation;
+  private onFlightInformationRetrieved(flightInformation: IFlightInformation): void {
+    if (flightInformation && flightInformation.flightRecord) {
+      flightInformation.flightRecord.forEach((flightRecord: IFlightRecord) => {
+        if (flightRecord.estimated) {
+          flightRecord.estimated = this.formatDateTime(flightRecord.estimated);
+        }
+        if (flightRecord.scheduled) {
+          flightRecord.scheduled = this.formatDateTime(flightRecord.scheduled);
+        }
+      });
+      this.flightInformation = flightInformation
+    }
   }
 
-  initialize() {
+  private formatDateTime(dateTime: string): string {
+    return moment(dateTime).format('h:mm:ss a');
+  }
+
+  private initialize(): void {
     this.futureWindow = 0;
     this.airportCodes = [
       {label: 'MIA', value: {code: 'MIA'}},

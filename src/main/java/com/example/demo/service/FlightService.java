@@ -37,7 +37,6 @@ public class FlightService implements IFlightService {
         return flightInfoUpdateRepository.findAll();
     }
 
-    //TODO: could only pull back flight info if db is empty
     public void getFlights(FlightUpdate flightUpdate) {
         ResponseEntity<FlightInfoUpdate> response = null;
         HttpEntity<Object> requestEntity = new HttpEntity<>(flifoRequestHeaders);
@@ -64,18 +63,21 @@ public class FlightService implements IFlightService {
         LOG.info("Updating flight record");
         FlightInfoRecord flightInfoRecord = flightIntoRecordRepository.findOne(updatedFlightRecord.getId());
         flightInfoRecord.setRemark(updatedFlightRecord.getRemark());
+        flightInfoRecord.setGate(updatedFlightRecord.getGate());
+        flightInfoRecord.setEstimated(updatedFlightRecord.getEstimated());
+        flightInfoRecord.setScheduled(updatedFlightRecord.getScheduled());
         flightIntoRecordRepository.save(flightInfoRecord);
         LOG.info("Flight record updated");
-
         flightMessengerService.sendUpdate(flightInfoRecord);
     }
 
-    //TODO: implement delete delete
-    //TODO: implement create if get time
-    //TODO: add momentjs on the client
-    //TODO: clean up and refactor
-    //TODO: finalize security
-    //TODO: tests
+    public void deleteFlightRecord(FlightInfoRecord updatedFlightRecord) {
+        LOG.info("deleting flight record");
+        FlightInfoRecord flightInfoRecord = flightIntoRecordRepository.findOne(updatedFlightRecord.getId());
+        flightIntoRecordRepository.delete(flightInfoRecord);
+        LOG.info("Flight record deleted");
+        flightMessengerService.sendDelete(flightInfoRecord);
+    }
 
     private void save(FlightInfoUpdate flightInfoUpdate) {
         if (flightInfoUpdate != null) {

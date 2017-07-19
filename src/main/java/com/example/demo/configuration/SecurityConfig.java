@@ -27,9 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/flightrecords").permitAll() //TODO: try removing this when build into dist to see if work
-                .antMatchers("/flights").permitAll()
-                .antMatchers("/updateflightrecord").permitAll()
+                .antMatchers("/flightrecords").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -37,4 +35,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll();
     }
+
+
+    //TODO: uncomment below and comment above if running aodb client stanalone and not from binaries within assets also remove @secured tags from controller to allow through security
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable();
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/flightrecords").permitAll()
+//                .antMatchers("/flights").permitAll()
+//                .antMatchers("/updateflightrecord").permitAll()
+//                .antMatchers("/deleteflightrecord").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .permitAll();
+//    }
 }

@@ -10,6 +10,7 @@ export interface IDashboardService {
   getFlights(): Observable<IFlightInformation>;
   updateFlights(flightUpdate: IFlightUpdate): Promise<any>;
   updateFlightRecord(flightRecord: IFlightRecord): Promise<any>;
+  deleteFlightRecord(flightRecord: IFlightRecord): Promise<any>;
 }
 
 @Injectable()
@@ -28,7 +29,7 @@ export class DashboardService implements IDashboardService {
       .catch(this.handleError);
   }
 
-  updateFlights(flightUpdate: IFlightUpdate): Promise<any> {
+  public updateFlights(flightUpdate: IFlightUpdate): Promise<any> {
     let headers = new Headers({'Content-Type': 'application/json'});
     return this._http
       .post('http://localhost:8080/flights', JSON.stringify(flightUpdate), {headers: headers})
@@ -37,7 +38,7 @@ export class DashboardService implements IDashboardService {
       .catch(this.handleError);
   };
 
-  updateFlightRecord(flightRecord: IFlightRecord): Promise<any> {
+  public updateFlightRecord(flightRecord: IFlightRecord): Promise<any> {
     let headers = new Headers({'Content-Type': 'application/json'});
     return this._http
       .put('http://localhost:8080/updateflightrecord', JSON.stringify(flightRecord), {headers: headers})
@@ -46,12 +47,21 @@ export class DashboardService implements IDashboardService {
       .catch(this.handleError);
   }
 
-  private extractData(res: Response) {
+  public deleteFlightRecord(flightRecord: IFlightRecord): Promise<any> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    return this._http
+      .post('http://localhost:8080/deleteflightrecord', JSON.stringify(flightRecord), {headers: headers})
+      .map((response) => response.json())
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  private extractData(res: Response): any {
     let body = res.json();
     return body[0] || [];
   }
 
-  private handleError(error: any) {
+  private handleError(error: any): any {
     let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg);
     return Observable.throw(errMsg);
